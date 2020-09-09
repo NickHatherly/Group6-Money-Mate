@@ -20,7 +20,7 @@
             </a-form-item>
             <a-form-item label="Balance change"
             >
-                <p class="receipt-data">{{receipt.type === 'income' ? "+" : "-"}}{{receipt.totalAmount}}</p>
+                <p class="receipt-data">{{receipt.type === 'Income' ? "+" : "-"}}{{receipt.totalAmount}}</p>
             </a-form-item>
             <div class="tc">
                 <a-button class="submit-btn" type="primary" size="large" @click="onSubmit">Finish</a-button>
