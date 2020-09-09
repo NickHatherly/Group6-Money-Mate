@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <input type="float" v-model="float"/>
-    <p></p>
-    <input type="text" v-model="text"/>
-    <p></p>
-    <button @click="addtransaction ()">Save Transaction</button>
+        <input type="text" v-model="text"/>
+        <p></p>
+        <input type="double" v-model="float"/>
+        <p></p>
+        <v-row justify="center">
+        <v-date-picker v-model="picker"></v-date-picker>
+        </v-row>
+        <p></p>
+        <button @click="addtransaction ()">Save Transaction</button>
   </div>
 </template>
 
 <script>
-// var id = 0;
 export default {
   name: 'App',
   data () {
@@ -22,16 +25,18 @@ export default {
 
   methods: {
     addtransaction () {
-      this.transactions.push(this.float)
+      this.transactions.push(this.double)
       this.float - null
       this.transactions.push(this.text)
       this.text - null
       this.transactions.push(Math.round(+new Date()/1000))
+      this.text - null
       this.$localStorage.set('transactions' + " " + localStorage.length, JSON.stringify(this.transactions),)
       this.transactions = []
     }
   }
 }
+
 </script>
 
 <style>
