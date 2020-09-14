@@ -1,10 +1,13 @@
 <template>
   <v-app id="inspire">
+
+    <!-- this is the code for the app menu on the left side -->
     <v-navigation-drawer
       v-model="drawer"
       app
     >
       <v-list dense>
+        <!-- each of these blocks of code is for an individual item in the menu -->
         <v-list-item link>
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
@@ -13,17 +16,27 @@
             <v-list-item-title>Home</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
         <v-list-item link>
           <v-list-item-action>
-            <v-icon>mdi-email</v-icon>
+            <v-icon>mdi-camera</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Contact</v-list-item-title>
+            <v-list-item-title>Image input</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        
+        <v-list-item link>
+          <v-list-item-action>
+            <v-icon>mdi-microphone</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Voice Input</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-
+  <!-- colouring for the bar across the top -->
     <v-app-bar
       app
       color="indigo"
@@ -34,29 +47,52 @@
     </v-app-bar>
 
     <v-main>
+      <!-- the contrainer that the main body is contained -->
       <v-container
-        class="fill-height"
+        class=""
         fluid
       >
-        <v-row
-          align="center"
-          justify="center"
-        >
+
           <v-col class="text-center">
               <template>
                 <v-text-field
-                label="Description"
-                single-line v-model="text"></v-text-field>
-                <v-text-field
                 label="Amount"
-                single-line v-model="double"></v-text-field>
+                single-line v-model="amount"></v-text-field>
+                <v-text-field
+                label="Description"
+                single-line v-model="description"></v-text-field>
                 <v-row>
-                <v-date-picker v-model="picker"></v-date-picker>
+                <v-col cols="12" sm="6" md="4">
+                    <v-menu
+                      ref="menu"
+                      v-model="menu"
+                      :close-on-content-click="false"
+                      :return-value.sync="date"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-text-field
+                          v-model="date"
+                          label="Date"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker v-model="date" no-title scrollable>
+                        <v-spacer></v-spacer>
+                        <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                        <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                      </v-date-picker>
+                    </v-menu>
+                  </v-col>
                 </v-row>
                 <v-btn  @click="addtransaction ()">Save Transaction</v-btn>
+                <v-btn  @click="addjson ()">Save json</v-btn>
               </template>
           </v-col>
-        </v-row>
       </v-container>
     </v-main>
     <v-footer
@@ -77,6 +113,7 @@
     data: () => {
       return {
       double: null,
+      arr: [],
       transactions: [],
       date: null,
       picker: null,
@@ -85,16 +122,21 @@
     },
 
   methods: {
-    addtransaction () {
-      this.transactions.push(this.text)
-      this.text - null
-      this.transactions.push(this.double)
-      this.double - null
-      this.transactions.push(Math.round(+new Date()/1000))
-      this.double - null
-      this.transactions.push(this.picker)
-      this.$localStorage.set('transactions' + " " + localStorage.length, JSON.stringify(this.transactions),)
-      this.transactions = []
+    // addtransaction () {
+    //   this.transactions.push(this.description)
+    //   this.transactions.push(this.amount)
+    //   this.transactions.push(Math.round(+new Date()/1000))
+    //   this.transactions.push(this.date)
+    //   console.log(JSON.stringify(this.transactions))
+    //   this.$localStorage.set('transactions' + " " + localStorage.length, JSON.stringify(this.transactions),)
+    //   this.transactions = []
+    // },
+
+    addjson () {
+      this.arr.push(Math.round(+new Date()/1000) + ", " + this.amount + ", " + this.date + ", " + this.description)
+      var myJSON = JSON.stringify(this.arr)
+      console.log(myJSON)
+      this.$localStorage.set('transaction', myJSON)
     }
   }
 }
