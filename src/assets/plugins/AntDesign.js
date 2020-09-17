@@ -1,19 +1,19 @@
 import Vue from "vue";
 import {
-    Button,
-    Checkbox,
-    Col,
-    DatePicker,
-    Form,
-    Icon,
-    Input,
-    InputNumber,
-    message,
-    Modal,
-    Progress,
-    Radio,
-    Row,
-    Spin,
+  Button,
+  Checkbox,
+  Col,
+  DatePicker,
+  Form,
+  Icon,
+  Input,
+  InputNumber,
+  message,
+  Modal,
+  Progress,
+  Radio,
+  Row,
+  Spin
 } from "ant-design-vue";
 
 Vue.use(Button);
