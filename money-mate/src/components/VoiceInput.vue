@@ -45,7 +45,6 @@
           stopBtn.style.display = "none";
           legendBtn.style.display = "inline";
           submitBtn.style.display = "inline";
-          console.log(outputTxt.textContent);
           var stringifyText = outputTxt.textContent.split(" ");
           var i;
           for (i = 0; i < stringifyText.length; i++) {
