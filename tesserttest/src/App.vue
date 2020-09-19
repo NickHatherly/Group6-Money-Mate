@@ -8,29 +8,48 @@
 <script>
 import { createWorker, createScheduler, PSM, OEM } from 'tesseract.js';
 
-
 const scheduler = createScheduler();
 const worker = createWorker({
   logger: m => console.log(m), // Add logger here
 });
+
 export default {
+   props: {
+      source: String,
+    },
   name: 'app',
+   data: () => {
+      return {
+      double: null,
+      myResult: '',
+      transactions: [],
+      /*date: null,
+      picker: null,
+      drawer: null */
+    }
+    },
   methods: { 
-    recognize: async () => {
-      const img = document.getElementById('text-img');
-      console.log(img);
-   await worker.load();
+    
+  recognize: async () => {
+  const img = document.getElementById('text-img');
+  console.log(img);
+
+  await worker.load();
   await worker.loadLanguage('eng');
   await worker.initialize('eng', OEM.LSTM_ONLY);
   await worker.setParameters({
-    tessedit_char_whitelist: '$.1234567890',
-        tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
+      tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
       });
   scheduler.addWorker(worker);
   const { data: { text } } = await worker.recognize(img);
-  console.log(text);
-  await scheduler.terminate();
-    }
+  var mytext = JSON.stringify(text);
+  var test123 = mytext.split(" ");
+  console.log(mytext);
+  var i;
+  for (i = 0; i < test123.length; i++) {
+    console.log(test123[i]);
+  }
+  }
   }
 }
 
