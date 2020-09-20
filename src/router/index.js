@@ -1,29 +1,30 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
-import VuexPersistence from 'vuex-persist'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
 
+Vue.use(VueRouter)
 
-Vue.use(Vuex)
-
-
-export const store = new Vuex.Store({
-    plugins: [new VuexPersistence().plugin],
-    state: {
-        transaction:[],
+const routes = [
+    {
+        path: '/',
+        name: 'Home',
+        component: Home
     },
-    actions: {
 
+    //this is what determines the path to your page, please copy this and edit as needed
+    //place your copy below this one
+    {
+        path: '/Textinput',
+        name: 'Textinput',
+        component: () => import(/* webpackChunkName: "textinput" */ '../views/Textinput.vue')
     },
-    mutations: {
-        addTransaction(state, transaction){
-            state.transaction.push(transaction)
-        },
-        
-    },
-    getters: {
-    },  
-    modules: {
-      
-    }
+    //PLACE HERE
+]
+
+const router = new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
   })
-  export default store
+
+export default router
