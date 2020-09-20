@@ -1,18 +1,19 @@
 <template>
   <v-app>
+    <router-view></router-view>
     <v-main>
-      <Textinput />
+      <ActionBtn />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Textinput from "./components/Textinput";
 import store from "./store/index";
+import ActionBtn from '@/components/ActionBtn';
 
 export default {
   name: "App",
   store: store,
-  components: { Textinput }
+  components: {ActionBtn}
 };
 </script>
