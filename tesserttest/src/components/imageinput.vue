@@ -1,15 +1,7 @@
 <template>
   <div id="app">
     <button v-on:click="recognize">recognize</button>
-    <img id="text-img" alt="Vue logo" src="./assets/low.jpg">
-                <v-chip-group
-                  multiple
-                  active-class="primary--text"
-                >
-                  <v-chip v-for="tag in tags" :key="tag">
-                    {{ tag }}
-                  </v-chip>
-                </v-chip-group>
+    <img id="text-img" alt="Vue logo" src="./assets/agagagagag.jpg">
   </div>
 </template>
 
@@ -31,8 +23,9 @@ export default {
       double: null,
       myResult: '',
       transactions: [],
-      
-
+      /*date: null,
+      picker: null,
+      drawer: null */
     }
     },
   methods: { 
@@ -40,6 +33,7 @@ export default {
   recognize: async () => {
   const img = document.getElementById('text-img');
   console.log(img);
+
   await worker.load();
   await worker.loadLanguage('eng');
   await worker.initialize('eng', OEM.LSTM_ONLY);
@@ -50,32 +44,13 @@ export default {
   const { data: { text } } = await worker.recognize(img);
   var mytext = JSON.stringify(text);
   var textread = mytext.split(" ");
-  
- console.log(mytext);
-  
+  console.log(mytext);
   var i;
   for (i = 0; i < textread.length; i++) {
-    console.log(textread[i])
-    
-      }
-  
-      
-    },  
+    console.log(textread[i]);
+  }
+  }
   }
 }
 
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
- img {
-  filter: saturate(1.1) contrast(2) grayscale(1) ; 
-} 
-</style>
