@@ -1,14 +1,15 @@
-import Vue from 'vue'
-import App from './App.vue'
-import VueLocalStorage from 'vue-localstorage'
-import vuetify from './plugins/vuetify';
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+//import store from "./store";
+import vuetify from "./plugins/vuetify";
+import store from './store/index';
 
-Vue.use(VueLocalStorage)
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 new Vue({
-  el: '#app',
+  router,
+  store: store,
   vuetify,
   render: h => h(App)
-}).$mount('#app')
-
+}).$mount("#app");
