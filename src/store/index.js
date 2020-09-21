@@ -1,19 +1,21 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import VuexPersistence from "vuex-persist";
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
+  plugins: [new VuexPersistence().plugin],
   state: {
-    transaction:[]
+    transaction: [],
   },
   mutations: {
-    addTransaction(state, transaction){
-      state.transaction.push(transaction)
+    addTransaction(state, transaction) {
+      state.transaction.push(transaction);
     },
   },
   actions: {},
-  modules: {}
+  modules: {},
 });
 
-export default store
+export default store;
