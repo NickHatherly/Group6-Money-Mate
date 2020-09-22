@@ -3,12 +3,16 @@
     <button v-on:click="recognize">recognize</button>
     <img id="text-img" alt="Vue logo" src="./assets/low.jpg">
 
-    <v-chip-group multiple active-class="primary--text">
-      <v-chip v-for="tag in tags" :key="tag">
-        {{ tag }}
+<span class="subheading">{{title}}</span>
+    <v-chip-group 
+      active-class="primary--text">
+       <v-chip v-for="tag in tags" :key="tag" @click="chipClick" filter > 
+        {{ tag }} 
       </v-chip>
     </v-chip-group>
-    <v-file-input
+
+    <v-file-input 
+    v-model="files"
       label="File input"
       filled
       prepend-icon="mdi-camera"
@@ -32,11 +36,14 @@ export default {
   name: 'app',
   data: () => {
     return {
-      double: null,
+      title: 'Welcome to title changer',
       myResult: '',
       transactions: [],
       testtext: '',
-      tags: [] //tags is the array where chips data is kept
+      textread: '',
+      tags: [ //tags is the array where chips data is kept
+      ], 
+      files: [],
     }
   },
   methods: {
@@ -57,15 +64,26 @@ export default {
       var mytext = JSON.stringify(text); //turn the text into a string
       var textread = mytext.split(" "); //split the stringified text to be turrned into tokens
       console.log(textread);
+      
+      textread.forEach(split => {
+            console.log(split);
+          })
 
-      var i;
-      for (i = 0; i < textread.length; i++) {//goes through each token and seperates it into individual pieces of data 
-        console.log(textread[i])
-      }
+      this.textread = textread
+     
+
       this.textread = [tags] //this is where we are trying to place the data into the chips array but can't
-
+      
     },
-    
+     chipClick (event) {
+        var chipSingle = event.target;
+        console.log(chipSingle.textContent);
+      }
+    /*changeTitle (event) {
+        var chipSingle = event.target;
+        console.log(chipSingle.textContent);
+      } */
+      
   }
 }
 
