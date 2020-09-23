@@ -37,23 +37,13 @@
     name: 'voice',
     data() {
       return {
-        tags: [
-          'Work',
-          'Home Improvement',
-          'Vacation',
-          'Food',
-          'Drawers',
-          'Shopping',
-          'Art',
-          'Tech',
-          'Creative Writing',
-        ],
+        tags: [],
         count: 0,
         transaction: []
       }
     },
     methods: {
-      inputSpeech: function() {
+      inputSpeech () {
         var outputTxt = document.getElementById('output');
         var startBtn = document.getElementById('start');
         var stopBtn = document.getElementById('stop');
@@ -61,6 +51,7 @@
         var textBox = document.getElementById('textBox');
         var chipGroup = document.getElementById('resultChips');
         var descText = document.getElementById('topText');
+        var context = this;
 
         startBtn.style.display = "none";
         restartBtn.style.display = "none";
@@ -71,6 +62,7 @@
         this.count = 0;
         descText.textContent = "Note: Enter information about the company name, date, description, amount and if the information is recurring";
         this.transaction = [];
+        this.tags = [];
 
         var recognition = new window.webkitSpeechRecognition
         recognition.continuous = true;
@@ -87,10 +79,10 @@
           stopBtn.style.display = "none";
           textBox.style.display = "none";
           restartBtn.style.display = "inline";
-          //console.log(outputTxt.textContent);
           var stringifyText = outputTxt.textContent.split(" ");
-          stringifyText.forEach(value => {
+          stringifyText.forEach(function(value) {
             console.log(value);
+            context.tags.push(value);
           })
           chipGroup.style.display = "inline";
           descText.textContent = "Please select the Company Name from the chips below. If there is no applicable information, select the red chip."
