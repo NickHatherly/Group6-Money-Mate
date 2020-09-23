@@ -1,22 +1,27 @@
 <template>
   <div id="app">
-    <button v-on:click="recognize">recognize</button>
-    <img id="text-img" alt="Vue logo" src="./assets/low.jpg">
-
-<span class="subheading">{{title}}</span>
-    <v-chip-group 
-      active-class="primary--text">
-       <v-chip v-for="tag in tags" :key="tag" @click="chipClick" filter > 
-        {{ tag }} 
-      </v-chip>
-    </v-chip-group>
-
-    <v-file-input 
+     <v-file-input 
     v-model="files"
       label="File input"
       filled
       prepend-icon="mdi-camera"
     ></v-file-input>
+
+    <button v-on:click="recognize">recognize</button>
+    <img id="text-img" alt="Vue logo" src="./assets/low.jpg">
+
+    <p id="topText">Note: Enter information about the company name, date, description, amount and if the information is recurring</p>
+    <v-chip-group 
+      column
+      active-class="primary--text"
+      id="resultChips">
+       <v-chip color="red" text-color="white" @click="chipClick"> Information Unavailable </v-chip>
+       <v-chip v-for="tag in tags" :key="tag" @click="chipClick"> 
+        {{ tag }} 
+      </v-chip>
+    </v-chip-group>
+    <v-btn text large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
+
 
   </div>
 </template>
@@ -36,21 +41,27 @@ export default {
   name: 'app',
   data: () => {
     return {
-      title: 'Welcome to title changer',
       myResult: '',
       transactions: [],
       testtext: '',
       textread: '',
-      tags: [ //tags is the array where chips data is kept
-      ], 
+      tags: [], //tags is the array where chips data is kept
+      count: 0,
       files: [],
+
     }
   },
   methods: {
 
+
     //tesseract data read
-    recognize: async () => {
-      var tags;
+    async recognize () {
+      var chipGroup = document.getElementById('resultChips');
+      var descText = document.getElementById('topText');
+      
+      chipGroup.style.display = "none";
+      descText.textContent = "Note: Enter information about the company name, date, description, amount and if the information is recurring";
+      //var tags;
       const img = document.getElementById('text-img');
       console.log(img);
       await worker.load();
@@ -67,23 +78,63 @@ export default {
       
       textread.forEach(split => {
             console.log(split);
+            this.tags.push(split);
           })
 
-      this.textread = textread
-     
-
-      this.textread = [tags] //this is where we are trying to place the data into the chips array but can't
-      
+      chipGroup.style.display = "inline";
+      descText.textContent = "Please select the Company Name from the chips below. If there is no applicable information, select the red chip."
     },
+
      chipClick (event) {
+       var descText = document.getElementById('topText');
+        var backBtn = document.getElementById('backBtn');
+
         var chipSingle = event.target;
-        console.log(chipSingle.textContent);
-      }
-    /*changeTitle (event) {
-        var chipSingle = event.target;
-        console.log(chipSingle.textContent);
-      } */
+        var chipContent = chipSingle.textContent.substring(1, chipSingle.textContent.length - 1); //Remove space that is always at the start and the end
+        if (chipContent.localeCompare("Information Unavailable") == 0) {
+          chipContent = "";
+        }
+        switch(this.count) {
+          case 0:
+            descText.textContent = "Please select the Date from the chips below. If there is no applicable information, select the red chip.";
+            backBtn.style.display = "inline";
+            break;
+          case 1:
+            descText.textContent = "Please select the Description from the chips below. If there is no applicable information, select the red chip.";
+            break;
+          case 2:
+            descText.textContent = "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip.";
+            break;
+          case 3:
+            break;
+          }
+        this.count++;
+        this.transactions.push(chipContent);
+        console.log(this.transactions);
+      },
       
+      goBack () {
+        var descText = document.getElementById('topText');
+        var backBtn = document.getElementById('backBtn');
+        this.transactions.splice(this.transactions.length - 1, 1);
+        console.log(this.transactions);
+        this.count--;
+        switch(this.count) {
+          case 0:
+            descText.textContent = "Please select the Company Name from the chips below. If there is no applicable information, select the red chip.";
+            backBtn.style.display = "none";
+            break;
+          case 1:
+            descText.textContent = "Please select the Date from the chips below. If there is no applicable information, select the red chip.";
+            break;
+          case 2:
+            descText.textContent = "Please select the Description from the chips below. If there is no applicable information, select the red chip.";
+            break;
+          case 3:
+            descText.textContent = "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip.";
+            break;
+        }
+      }
   }
 }
 
