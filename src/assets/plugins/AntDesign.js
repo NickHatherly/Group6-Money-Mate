@@ -11,6 +11,7 @@ import {
   message,
   Modal,
   Progress,
+  Popover,
   Radio,
   Row,
   Spin
@@ -25,6 +26,7 @@ Vue.use(Icon);
 Vue.use(Input);
 Vue.use(InputNumber);
 Vue.use(Progress);
+Vue.use(Popover);
 Vue.use(Radio);
 Vue.use(Row);
 Vue.use(Spin);

@@ -12,7 +12,7 @@
         <p class="receipt-data">{{ receipt.organisation }}</p>
       </a-form-item>
       <a-form-item label="Date">
-        <p class="receipt-data">{{ getDate(receipt.date) }}</p>
+        <p class="receipt-data">{{ receipt.date && getDate(receipt.date) }}</p>
       </a-form-item>
       <a-form-item label="Description">
         <p class="receipt-data">{{ receipt.description }}</p>
