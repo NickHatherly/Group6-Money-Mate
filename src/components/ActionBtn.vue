@@ -25,3 +25,13 @@
     </v-btn>
   </v-speed-dial>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+    fab: false
+  }
+}
+}
+</script>
