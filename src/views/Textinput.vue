@@ -6,7 +6,7 @@
           <v-text-field
             v-model="amount"
             label="Amount"
-            :rules="[v => !!v || 'Please Enter an Amount']"
+            :rules="[(v) => !!v || 'Please Enter an Amount']"
             required
           ></v-text-field>
 
@@ -34,19 +34,19 @@
           </v-menu>
 
           <v-overflow-btn
+            v-model="category"
             class="my-2"
             :items="dropdown_category"
             label="Category"
             target="#dropdown-example"
           ></v-overflow-btn>
 
-          <v-btn :disabled="!isValid" @click="addTransaction()">Save json</v-btn>
+          <v-btn :disabled="!isValid" @click="addTransaction()">Save transaction</v-btn>
         </v-col>
       </v-row>
     </v-container>
   </v-form>
 </template>
-
 
 <script>
 import { store } from "@/store/index";
@@ -55,21 +55,24 @@ import { mapState } from "vuex";
 export default {
   data: () => ({
     dropdown_category: [
-      "Food",
-      "Entertainment",
       "Bills",
-      "Utilities",
+      "Entertainment",
+      "Food",
+      "Groceries",
       "Health",
-      "Transport",
       "Shopping",
-      "groceries",
+      "Transport",
+      "Utilities",
+      "Other",
     ],
+
     date: new Date().toISOString().substr(0, 10),
     menu: false,
     store,
     description: null,
     amount: null,
     isValid: true,
+    category: null,
   }),
 
   methods: {
@@ -80,6 +83,7 @@ export default {
         amount: this.amount,
         date: this.date,
         name: this.description,
+        category: this.category,
       });
     },
   },
@@ -89,3 +93,6 @@ export default {
   },
 };
 </script>
+
+
+this.$store.state.transction.whatever you want
