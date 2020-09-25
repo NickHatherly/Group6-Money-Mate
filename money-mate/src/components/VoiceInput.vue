@@ -6,7 +6,6 @@
         <v-btn text large v-on:click="inputSpeech" id="start">Begin voice input</v-btn>
         <v-btn text large id="stop">Input in progress. Press to stop voice input.</v-btn><br><br>
         <div id="textBox">
-        <v-col cols="12" md="3" id="columns">
             <v-textarea 
               id="output" 
               :rows="4" 
@@ -14,7 +13,6 @@
               :no-resize="true"
               :outlined="true"
             ></v-textarea><br><br>
-          </v-col>
         </div>
         <v-chip-group
           column
@@ -56,7 +54,7 @@
         startBtn.style.display = "none";
         restartBtn.style.display = "none";
         stopBtn.style.display = "inline";
-        outputTxt.textContent = '';
+        outputTxt.textContent = "";
         textBox.style.display = "inline";
         chipGroup.style.display = "none";
         this.count = 0;
@@ -159,5 +157,9 @@
 <style scoped>
   #stop, #legend, #submit, #restart, #backBtn, #resultChips {
     display: none;
+  }
+  #textBox {
+    margin: auto;
+    width: 30%;
   }
 </style>
