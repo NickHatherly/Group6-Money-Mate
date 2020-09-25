@@ -10,7 +10,6 @@ const routes = [
     name: "Home",
     component: Home,
   },
-
   //this is what determines the path to your page, please copy this and edit as needed
   //place your copy below this one
   {
@@ -19,12 +18,17 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "textinput" */ "../views/Textinput.vue"),
   },
-  //PLACE HERE
   {
-    path: "/imageinput",
-    name: "imageinput",
+    path: "/Imageinput",
+    name: "Imageinput",
     component: () =>
-      import(/* webpackChunkName: "imageinput" */ "../views/imageinput.vue"),
+      import(/* webpackChunkName: "imageinput" */ "../views/Imageinput.vue"),
+  },
+  {
+    path: "/Voiceinput",
+    name: "Voiceinput",
+    component: () =>
+      import(/* webpackChunkName: "voiceinput" */ "../views/Voiceinput.vue"),
   },
 ];
 

@@ -6,6 +6,7 @@
         <v-icon v-else>mdi-plus</v-icon>
       </v-btn>
     </template>
+
     <!-- TEXT INPUT -->
     <!-- these buttons each link to the different pages -->
     <v-btn dark small fab color="green" to="/Textinput">
@@ -14,13 +15,13 @@
 
     <!-- VOICE INPUT -->
     <!-- these buttons each link to the different pages -->
-    <v-btn dark small fab color="indigo" to="/ REPLACE ME WITH YOUR PAGE PATH">
+    <v-btn dark small fab color="indigo" to="/Voiceinput">
       <v-icon>mdi-microphone</v-icon>
     </v-btn>
 
     <!-- IMAGE INPUT -->
     <!-- these buttons each link to the different pages -->
-    <v-btn dark small fab color="red" to="/imageinput">
+    <v-btn dark small fab color="red" to="/Imageinput">
       <v-icon>mdi-camera</v-icon>
     </v-btn>
   </v-speed-dial>
@@ -28,10 +29,10 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-    fab: false
-  }
-}
-}
+      fab: false,
+    };
+  },
+};
 </script>
