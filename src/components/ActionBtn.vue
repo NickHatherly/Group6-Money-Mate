@@ -20,7 +20,7 @@
 
     <!-- IMAGE INPUT -->
     <!-- these buttons each link to the different pages -->
-    <v-btn dark small fab color="red" to="/  REPLACE ME WITH YOUR PAGE PATH">
+    <v-btn dark small fab color="red" to="/imageinput">
       <v-icon>mdi-camera</v-icon>
     </v-btn>
   </v-speed-dial>

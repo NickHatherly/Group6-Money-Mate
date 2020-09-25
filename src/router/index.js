@@ -20,6 +20,12 @@ const routes = [
       import(/* webpackChunkName: "textinput" */ "../views/Textinput.vue"),
   },
   //PLACE HERE
+  {
+    path: "/imageinput",
+    name: "imageinput",
+    component: () =>
+      import(/* webpackChunkName: "imageinput" */ "../views/imageinput.vue"),
+  },
 ];
 
 const router = new VueRouter({
