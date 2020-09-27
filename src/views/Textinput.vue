@@ -24,12 +24,20 @@
             min-width="290px"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-text-field v-model="date" label="Date" readonly v-bind="attrs" v-on="on"></v-text-field>
+              <v-text-field
+                v-model="date"
+                label="Date"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
             </template>
             <v-date-picker v-model="date" no-title scrollable>
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.date.save(date)">OK</v-btn>
+              <v-btn text color="primary" @click="$refs.date.save(date)"
+                >OK</v-btn
+              >
             </v-date-picker>
           </v-menu>
 
@@ -41,7 +49,9 @@
             target="#dropdown-example"
           ></v-overflow-btn>
 
-          <v-btn :disabled="!isValid" @click="addTransaction()">Save transaction</v-btn>
+          <v-btn :disabled="!isValid" @click="addTransaction()"
+            >Save transaction</v-btn
+          >
         </v-col>
       </v-row>
     </v-container>
@@ -74,11 +84,10 @@ export default {
     isValid: true,
     category: null,
   }),
-  created () {
-  this.amount = this.$route.query.transactions.amount
-  this.date = this.$route.query.transactions.date
-  this.title = this.$route.query.transactions.title
-  this.category = this.$route.query.transactions.category
+  created() {
+    this.amount = this.$route.query.transactions[3];
+    this.date = this.$route.query.transactions[1];
+    this.title = this.$route.query.transactions[2];
   },
 
   methods: {
