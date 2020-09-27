@@ -10,7 +10,7 @@
             required
           ></v-text-field>
 
-          <v-text-field v-model="description" label="Description"></v-text-field>
+          <v-text-field v-model="title" label="Description"></v-text-field>
         </v-col>
 
         <v-col cols="10" md="6">
@@ -74,6 +74,12 @@ export default {
     isValid: true,
     category: null,
   }),
+  created () {
+  this.amount = this.$route.query.transactions.amount
+  this.date = this.$route.query.transactions.date
+  this.title = this.$route.query.transactions.title
+  this.category = this.$route.query.transactions.category
+  },
 
   methods: {
     addTransaction() {
@@ -82,7 +88,7 @@ export default {
         id: id,
         amount: this.amount,
         date: this.date,
-        name: this.description,
+        title: this.title,
         category: this.category,
       });
     },
