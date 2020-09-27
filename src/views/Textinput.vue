@@ -49,6 +49,8 @@
             target="#dropdown-example"
           ></v-overflow-btn>
 
+          <v-text-field v-model="company" label="Company"></v-text-field>
+
           <v-btn :disabled="!isValid" @click="addTransaction()"
             >Save transaction</v-btn
           >
@@ -83,11 +85,13 @@ export default {
     amount: null,
     isValid: true,
     category: null,
+    company: null,
   }),
   created() {
     this.amount = this.$route.query.transactions[0];
     this.date = this.$route.query.transactions[1];
     this.title = this.$route.query.transactions[2];
+    this.company = this.$route.query.transactions[3];
   },
 
   methods: {
@@ -99,6 +103,7 @@ export default {
         date: this.date,
         title: this.title,
         category: this.category,
+        company: this.company,
       });
     },
   },
@@ -108,6 +113,3 @@ export default {
   },
 };
 </script>
-
-
-this.$store.state.transction.whatever you want
