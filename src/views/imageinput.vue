@@ -70,7 +70,7 @@ export default {
 
       chipGroup.style.display = "none";
       descText.textContent =
-        "Note: Enter information about the company name, date, description, amount and if the information is recurring";
+        "Note: Enter information about the company name, date, description and amount";
       //var tags;
       //const img = document.getElementById('text-img');
       console.log(this.files);
@@ -126,7 +126,7 @@ export default {
             "Please select the Date from the chips below. If there is no applicable information, select the red chip.";          
           backBtn.style.display = "inline";
           submitBtn.style.display = "inline";
-          this.transactionsname = this.chipContent;
+          //this.transactionsname = this.chipContent;
           break;
         case 1:
           descText.textContent =
