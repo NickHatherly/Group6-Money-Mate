@@ -26,7 +26,7 @@
         </v-chip-group>
         <v-btn text large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
         <v-btn text large v-on:click="inputSpeech" id="restart">Re-enter voice input</v-btn>
-        <v-btn text large id="submit" router :to="{ name: 'Textinput', query: { transaction } }>Submit</v-btn>
+        <v-btn text large id="submit" router :to="{ name: 'Textinput', query: { transactions } }">Submit</v-btn>
     </div>
   </div>
 </template>
@@ -38,7 +38,7 @@
       return {
         tags: [],
         count: 0,
-        transaction: []
+        transactions: []
       }
     },
     methods: {
@@ -62,7 +62,7 @@
         backBtn.style.display = "none";
         descText.textContent = "Note: Enter information about the company name, date, description, amount and if the information is recurring";
         this.count = 0;
-        this.transaction = [];
+        this.transactions = [];
         this.tags = [];
 
         var recognition = new window.webkitSpeechRecognition
@@ -133,7 +133,7 @@
           }
         this.count++;
         this.transaction.push(chipContent);
-        console.log(this.transaction);
+        console.log(this.transactions);
       },
 
       goBack () {
@@ -143,8 +143,8 @@
         var submitBtn = document.getElementById('submit');
         var chipGroup = document.getElementById('resultChips');
 
-        this.transaction.splice(this.transaction.length - 1, 1);
-        console.log(this.transaction);
+        this.transactions.splice(this.transactions.length - 1, 1);
+        console.log(this.transactions);
         this.count--;
         switch(this.count) {
           case 0:
