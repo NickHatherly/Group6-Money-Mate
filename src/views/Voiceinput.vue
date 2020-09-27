@@ -132,7 +132,7 @@
             break;
           }
         this.count++;
-        this.transaction.push(chipContent);
+        this.transactions.push(chipContent);
         console.log(this.transactions);
       },
 
