@@ -23,6 +23,14 @@
       </v-chip>
     </v-chip-group>
     <v-btn text large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
+    <v-btn
+      text
+      large
+      id="submit"
+      router
+      :to="{ name: 'Textinput', query: { transactions } }"
+      >Submit</v-btn
+    >
   </div>
 </template>
 
@@ -50,6 +58,7 @@ export default {
       tags: [], //tags is the array where chips data is kept
       count: 0,
       files: [],
+      name: null,
     };
   },
   methods: {
@@ -57,10 +66,11 @@ export default {
     async recognize() {
       var chipGroup = document.getElementById("resultChips");
       var descText = document.getElementById("topText");
+      //var submitBtn = document.getElementById("submit");
 
       chipGroup.style.display = "none";
       descText.textContent =
-        "Note: Enter information about the company name, date, description, amount and if the information is recurring";
+        "Note: Enter information about the company name, date, description and amount";
       //var tags;
       //const img = document.getElementById('text-img');
       console.log(this.files);
@@ -91,13 +101,16 @@ export default {
       });
 
       chipGroup.style.display = "inline";
+      //submitBtn.style.display ="none";
       descText.textContent =
-        "Please select the Company Name from the chips below. If there is no applicable information, select the red chip.";
+        "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip."; 
     },
 
     chipClick(event) {
       var descText = document.getElementById("topText");
       var backBtn = document.getElementById("backBtn");
+      var submitBtn = document.getElementById("submit");
+      var chipGroup = document.getElementById("resultChips");
 
       var chipSingle = event.target;
       var chipContent = chipSingle.textContent.substring(
@@ -110,8 +123,10 @@ export default {
       switch (this.count) {
         case 0:
           descText.textContent =
-            "Please select the Date from the chips below. If there is no applicable information, select the red chip.";
+            "Please select the Date from the chips below. If there is no applicable information, select the red chip.";          
           backBtn.style.display = "inline";
+          submitBtn.style.display = "inline";
+          //this.transactionsname = this.chipContent;
           break;
         case 1:
           descText.textContent =
@@ -119,9 +134,13 @@ export default {
           break;
         case 2:
           descText.textContent =
-            "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip.";
+             "Please select the Company Name from the chips below. If there is no applicable information, select the red chip.";
           break;
         case 3:
+          descText.textContent =
+            "If the selected informtaion is correct please click submit.";
+          submitBtn.style.direction = "inline";
+          chipGroup.style.direction = "inline";
           break;
       }
       this.count++;
@@ -132,13 +151,15 @@ export default {
     goBack() {
       var descText = document.getElementById("topText");
       var backBtn = document.getElementById("backBtn");
+      var submitBtn = document.getElementById("submit");
+      var chipGroup = document.getElementById("resultChips");
       this.transactions.splice(this.transactions.length - 1, 1);
       console.log(this.transactions);
       this.count--;
       switch (this.count) {
         case 0:
           descText.textContent =
-            "Please select the Company Name from the chips below. If there is no applicable information, select the red chip.";
+           "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip."; 
           backBtn.style.display = "none";
           break;
         case 1:
@@ -151,7 +172,9 @@ export default {
           break;
         case 3:
           descText.textContent =
-            "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip.";
+            "If the selected informtaion is correct please click submit.";
+          submitBtn.style.direction = "inline";
+          chipGroup.style.direction = "inline";
           break;
       }
     },

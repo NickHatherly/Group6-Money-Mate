@@ -10,7 +10,7 @@
             required
           ></v-text-field>
 
-          <v-text-field v-model="description" label="Description"></v-text-field>
+          <v-text-field v-model="title" label="Description"></v-text-field>
         </v-col>
 
         <v-col cols="10" md="6">
@@ -24,12 +24,20 @@
             min-width="290px"
           >
             <template v-slot:activator="{ on, attrs }">
-              <v-text-field v-model="date" label="Date" readonly v-bind="attrs" v-on="on"></v-text-field>
+              <v-text-field
+                v-model="date"
+                label="Date"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
             </template>
             <v-date-picker v-model="date" no-title scrollable>
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.date.save(date)">OK</v-btn>
+              <v-btn text color="primary" @click="$refs.date.save(date)"
+                >OK</v-btn
+              >
             </v-date-picker>
           </v-menu>
 
@@ -41,7 +49,9 @@
             target="#dropdown-example"
           ></v-overflow-btn>
 
-          <v-btn :disabled="!isValid" @click="addTransaction()">Save transaction</v-btn>
+          <v-btn :disabled="!isValid" @click="addTransaction()"
+            >Save transaction</v-btn
+          >
         </v-col>
       </v-row>
     </v-container>
@@ -74,6 +84,11 @@ export default {
     isValid: true,
     category: null,
   }),
+  created() {
+    this.amount = this.$route.query.transactions[0];
+    this.date = this.$route.query.transactions[1];
+    this.title = this.$route.query.transactions[2];
+  },
 
   methods: {
     addTransaction() {
@@ -82,7 +97,7 @@ export default {
         id: id,
         amount: this.amount,
         date: this.date,
-        name: this.description,
+        title: this.title,
         category: this.category,
       });
     },
