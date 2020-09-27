@@ -103,7 +103,7 @@ export default {
       chipGroup.style.display = "inline";
       //submitBtn.style.display ="none";
       descText.textContent =
-        "Please select the Company Name from the chips below. If there is no applicable information, select the red chip.";
+        "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip."; 
     },
 
     chipClick(event) {
@@ -123,7 +123,7 @@ export default {
       switch (this.count) {
         case 0:
           descText.textContent =
-            "Please select the Date from the chips below. If there is no applicable information, select the red chip.";
+            "Please select the Date from the chips below. If there is no applicable information, select the red chip.";          
           backBtn.style.display = "inline";
           submitBtn.style.display = "inline";
           this.transactionsname = this.chipContent;
@@ -134,7 +134,7 @@ export default {
           break;
         case 2:
           descText.textContent =
-            "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip.";
+             "Please select the Company Name from the chips below. If there is no applicable information, select the red chip.";
           break;
         case 3:
           descText.textContent =
@@ -159,7 +159,7 @@ export default {
       switch (this.count) {
         case 0:
           descText.textContent =
-            "Please select the Company Name from the chips below. If there is no applicable information, select the red chip.";
+           "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip."; 
           backBtn.style.display = "none";
           break;
         case 1:

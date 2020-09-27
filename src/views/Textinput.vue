@@ -85,7 +85,7 @@ export default {
     category: null,
   }),
   created() {
-    this.amount = this.$route.query.transactions[3];
+    this.amount = this.$route.query.transactions[0];
     this.date = this.$route.query.transactions[1];
     this.title = this.$route.query.transactions[2];
   },
