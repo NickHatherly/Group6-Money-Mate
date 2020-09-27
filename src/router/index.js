@@ -19,10 +19,10 @@ const routes = [
       import(/* webpackChunkName: "textinput" */ "../views/Textinput.vue"),
   },
   {
-    path: "/imageinput",
+    path: "/Imageinput",
     name: "Imageinput",
     component: () =>
-      import(/* webpackChunkName: "imageinput" */ "../views/imageinput.vue"),
+      import(/* webpackChunkName: "imageinput" */ "../views/Imageinput.vue"),
   },
   {
     path: "/Voiceinput",
