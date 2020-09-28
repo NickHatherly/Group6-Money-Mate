@@ -1,15 +1,23 @@
 <template>
   <div id="app">
-    <v-file-input
-      v-model="files"
-      label="File input"
+    <!-- <v-file-input
+      type="file"
+      label="Select file to be scanned"
       filled
       prepend-icon="mdi-camera"
-    ></v-file-input>
-
-    <button v-on:click="recognize">recognize</button>
-    <img id="text-img" prepend-icon="mdi-camera" src="imageUrl" />
-
+      @change="previewImage" 
+      accept="image/*"
+    ></v-file-input> -->
+<div> 
+  <label for="upload-image">Select Image</label>
+  <input type="file" @change="previewImage" accept="image/*" id="upload-image" >
+  </div>
+    
+     <div class="image-preview" v-if="imageData.length > 0">
+                <img class="preview" :src="imageData">
+            </div>
+    <v-btn color= "#1565c0" dark large v-on:click="recognize">Recognize Image</v-btn>
+    <v-btn outlined color="#1565c0" large v-on:click="newImage">New image</v-btn>
     <p id="topText">
       Note: Enter information about the company name, date, description, amount
       and if the information is recurring
@@ -49,19 +57,32 @@ export default {
   name: "app",
   data: () => {
     return {
-      file: null,
-      imageUrl: null,
+      imageData: "",
+     // file: null,
+     // imageUrl: null,
       myResult: "",
       transactions: [],
       testtext: "",
       textread: "",
       tags: [], //tags is the array where chips data is kept
       count: 0,
-      files: [],
+      //files: [],
       name: null,
     };
   },
   methods: {
+
+    previewImage: function(event) {
+      var input = event.target;
+      if (input.files) {
+        var reader = new FileReader(); // create a veriable to convert to base64 format
+        reader.onload = (e) => { // Define a callback function to run, when FileReader finishes 
+        this.imageData = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]); // Start the reader and reads it as URL form 
+       }
+    },
+
     //tesseract data read
     async recognize() {
       var chipGroup = document.getElementById("resultChips");
@@ -71,9 +92,8 @@ export default {
       chipGroup.style.display = "none";
       descText.textContent =
         "Note: Enter information about the company name, date, description and amount";
-      //var tags;
       //const img = document.getElementById('text-img');
-      console.log(this.files);
+      console.log(this.imageData);
       await worker.load();
       await worker.loadLanguage("eng");
       await worker.initialize("eng", OEM.LSTM_ONLY);
@@ -83,7 +103,7 @@ export default {
       scheduler.addWorker(worker);
       const {
         data: { text },
-      } = await worker.recognize(this.files); //text it the output from the image
+      } = await worker.recognize(this.imageData); //text it the output from the image
       var mytext = JSON.stringify(text); //turn the text into a string
       var textread = mytext.split(" "); //split the stringified text to be turrned into tokens
       console.log(textread);
@@ -92,12 +112,9 @@ export default {
         console.log(split);
         split = split.replace(/\\n/g, "");
         split = split.replace(/[^A-Za-z0-9.$/]/g, "");
-        // if(split.indexOf(split) === -1) {
-        //     split.push(split)
-        //     return split;
-        //   }
         console.log(split);
         this.tags.push(split);
+        this.tags = [ ...new Set(this.tags) ]; //duplicate data is removed from the tags array, the ... expands a new list as an array
       });
 
       chipGroup.style.display = "inline";
@@ -193,5 +210,9 @@ export default {
 }
 img {
   filter: saturate(1.1) contrast(2) grayscale(1);
+}
+upload-image{
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: 20px;
 }
 </style>
