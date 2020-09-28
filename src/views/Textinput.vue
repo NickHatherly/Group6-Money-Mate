@@ -2,18 +2,16 @@
   <v-form v-model="isValid" cols="60" md="6">
     <v-container>
       <v-row>
-        <v-col cols="10" md="6">
+        <v-col>
           <v-text-field
             v-model="amount"
             label="Amount"
             :rules="[(v) => !!v || 'Please Enter an Amount']"
+            prepend-icon="mdi-currency-usd"
             required
           ></v-text-field>
-
-          <v-text-field v-model="title" label="Description"></v-text-field>
         </v-col>
-
-        <v-col cols="10" md="6">
+        <v-col>
           <v-menu
             ref="date"
             v-model="menu"
@@ -30,6 +28,7 @@
                 readonly
                 v-bind="attrs"
                 v-on="on"
+                prepend-icon="mdi-calendar"
               ></v-text-field>
             </template>
             <v-date-picker v-model="date" no-title scrollable>
@@ -40,22 +39,48 @@
               >
             </v-date-picker>
           </v-menu>
-
-          <v-overflow-btn
-            v-model="category"
-            class="my-2"
-            :items="dropdown_category"
-            label="Category"
-            target="#dropdown-example"
-          ></v-overflow-btn>
-
-          <v-text-field v-model="company" label="Company"></v-text-field>
-
-          <v-btn :disabled="!isValid" @click="addTransaction()"
-            >Save transaction</v-btn
-          >
         </v-col>
       </v-row>
+
+      <v-row>
+        <v-col>
+          <v-text-field
+            v-model="title"
+            label="Description"
+            prepend-icon="mdi-book-open"
+          ></v-text-field>
+        </v-col>
+
+        <v-col>
+          <v-select
+            v-model="inCategory"
+            :items="category"
+            label="Category"
+            prepend-icon="mdi-folder-open"
+          ></v-select>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>
+          <v-select
+            v-model="type"
+            :items="transType"
+            label="Transaction Type*"
+            prepend-icon="mdi-label"
+          ></v-select>
+        </v-col>
+        <v-col>
+          <v-text-field
+            v-model="company"
+            label="Company"
+            prepend-icon="mdi-office-building"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-btn :disabled="!isValid" @click="addTransaction()"
+        >Save transaction</v-btn
+      >
     </v-container>
   </v-form>
 </template>
@@ -66,17 +91,7 @@ import { mapState } from "vuex";
 
 export default {
   data: () => ({
-    dropdown_category: [
-      "Bills",
-      "Entertainment",
-      "Food",
-      "Groceries",
-      "Health",
-      "Shopping",
-      "Transport",
-      "Utilities",
-      "Other",
-    ],
+    transType: ["Expense", "Income"],
 
     date: new Date().toISOString().substr(0, 10),
     menu: false,
@@ -84,7 +99,6 @@ export default {
     description: null,
     amount: null,
     isValid: true,
-    category: null,
     company: null,
   }),
   created() {
@@ -96,20 +110,20 @@ export default {
 
   methods: {
     addTransaction() {
-      var id = Math.floor(Math.random() * 1000000000000);
+      var id = Math.floor(Date.now() / 1000);
       this.store.commit("addTransaction", {
         id: id,
         amount: this.amount,
         date: this.date,
         title: this.title,
-        category: this.category,
+        category: this.inCategory,
         company: this.company,
       });
     },
   },
 
   computed: {
-    ...mapState(["transaction"]),
+    ...mapState(["transaction", "category"]),
   },
 };
 </script>
