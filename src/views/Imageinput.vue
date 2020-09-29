@@ -8,21 +8,29 @@
       @change="previewImage" 
       accept="image/*"
     ></v-file-input> -->
+    
 <div> 
   <label for="upload-image">Select Image</label>
-  <input type="file" @change="previewImage" accept="image/*" id="upload-image" >
+  <input type="file" v-on:click="chooseFile" @change="previewImage" accept="image/*" id="upload-image" >
   </div>
-    
      <div class="image-preview" v-if="imageData.length > 0">
-                <img class="preview" :src="imageData">
+                <img id="imagepreview" class="preview"  :src="imageData" style="width:250px;height:400px;">
             </div>
-    <v-btn color= "#1565c0" dark large v-on:click="recognize">Recognize Image</v-btn>
-    <v-btn outlined color="#1565c0" large v-on:click="newImage">New image</v-btn>
+    <img id="text-img" src="/assets/imageholder.png">
+    <v-spacer></v-spacer>
+    <v-col></v-col>
+    <v-btn color= "#1565c0" dark large elevation="4" v-on:click="recognize">Recognize Image</v-btn>
+    <v-spacer></v-spacer>
+    <v-col></v-col>
+    <v-btn outlined color="#1565c0" large elevation="4" v-on:click="newImage">New image</v-btn>
+    <v-spacer></v-spacer>
+    <v-col></v-col>
+
     <p id="topText">
       Note: Enter information about the company name, date, description, amount
       and if the information is recurring
     </p>
-    <v-chip-group column active-class="primary--text" id="resultChips">
+    <v-chip-group column center-active active-class="primary--text" id="resultChips">
       <v-chip color="red" text-color="white" @click="chipClick">
         Information Unavailable
       </v-chip>
@@ -72,8 +80,39 @@ export default {
   },
   methods: {
 
+    chooseFile(){
+      var textimg = document.getElementById("text-img");
+      var chipGroup = document.getElementById("resultChips");
+      var backBtn = document.getElementById("backBtn");
+      var submitBtn = document.getElementById("submit");
+      var imagepreview  = document.getElementById("imagepreview" );
+      imagepreview.style.display = "inline"; 
+      textimg.style.display = "none"; 
+      backBtn.style.display = "none";
+      chipGroup.style.display = "none";
+      submitBtn.style.display = "none";
+    },
+
+    newImage(){
+      var imagepreview  = document.getElementById("imagepreview" );
+      imagepreview.style.display = "none"; 
+      this.count = 0;
+      this.transactions = [];
+      this.tags = [];
+    },
+
     previewImage: function(event) {
       var input = event.target;
+      var textimg = document.getElementById("text-img");
+      var chipGroup = document.getElementById("resultChips");
+      var backBtn = document.getElementById("backBtn");
+      var submitBtn = document.getElementById("submit");
+
+      textimg.style.display = "none";
+      backBtn.style.display = "none";
+      chipGroup.style.display = "none";
+      submitBtn.style.display = "none";
+
       if (input.files) {
         var reader = new FileReader(); // create a veriable to convert to base64 format
         reader.onload = (e) => { // Define a callback function to run, when FileReader finishes 
@@ -92,7 +131,6 @@ export default {
       chipGroup.style.display = "none";
       descText.textContent =
         "Note: Enter information about the company name, date, description and amount";
-      //const img = document.getElementById('text-img');
       console.log(this.imageData);
       await worker.load();
       await worker.loadLanguage("eng");
@@ -208,9 +246,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-img {
+/* img {
   filter: saturate(1.1) contrast(2) grayscale(1);
-}
+} */
 upload-image{
 font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     padding: 20px;
