@@ -7,15 +7,16 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
   plugins: [new VuexPersistence().plugin],
   state: {
-    transaction: []
+      receiptData:[]
   },
   mutations: {
-    addTransaction(state, transaction) {
-      state.transaction.push(transaction);
-    }
+      addReceipt(state, transaction) {
+          state.receiptData.push(transaction);
+      },
   },
   actions: {},
   modules: {}
 });
 
 export default store;
+

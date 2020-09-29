@@ -36,8 +36,12 @@
 </template>
 
 <script>
+    import { mapState } from "vuex";
 export default {
   name: "Submit",
+    computed: {
+        ...mapState(["receiptData"]),
+    },
   data() {
     return {
       labelCol: {
@@ -50,9 +54,7 @@ export default {
       recurring: false,
       receipt: {
         organisation: "",
-        day: "",
-        month: "",
-        year: "",
+        date: "",
         description: "",
         totalAmount: "",
         type: "",
@@ -65,14 +67,10 @@ export default {
   },
   methods: {
     onSubmit() {
-      let arr = [];
-      arr.push(0);
-      arr.push(this.receipt.totalAmount);
-      arr.push(this.receipt.date);
-      arr.push(this.receipt.description);
-      arr.push(this.receipt.type);
-      arr.push(this.receipt.recurring ? 1 : 0);
-      localStorage.setItem(localStorage.length.toString(), JSON.stringify(arr));
+        let obj = Object.assign({},this.receipt,{
+            recurring:this.receipt.recurring ? 1 : 0
+        })
+      this.$store.commit("addReceipt",obj);
       this.$message.success("submit successfully");
     },
     getDate(time) {
