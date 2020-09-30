@@ -6,6 +6,7 @@
           <v-text-field
             v-model="amount"
             label="Amount"
+            type="number"
             :rules="[(v) => !!v || 'Please Enter an Amount']"
             prepend-icon="mdi-currency-usd"
             required
@@ -78,9 +79,25 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-btn :disabled="!isValid" @click="addTransaction()"
-        >Save transaction</v-btn
-      >
+      <v-row>
+        <v-col>
+          <v-select
+            v-model="type"
+            :items="recurringType"
+            label="Recurring?"
+            prepend-icon="mdi-ticket"
+          ></v-select>
+        </v-col>
+        <v-col class="pa-2">
+          <v-btn
+            :disabled="!isValid"
+            color="#1565c0"
+            dark
+            @click="addTransaction()"
+            >Save transaction</v-btn
+          >
+        </v-col>
+      </v-row>
     </v-container>
   </v-form>
 </template>
@@ -91,8 +108,8 @@ import { mapState } from "vuex";
 
 export default {
   data: () => ({
+    recurringType: ["Yes", "No"],
     transType: ["Expense", "Income"],
-
     date: new Date().toISOString().substr(0, 10),
     menu: false,
     store,
