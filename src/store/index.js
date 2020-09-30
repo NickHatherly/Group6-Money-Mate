@@ -8,6 +8,16 @@ export const store = new Vuex.Store({
   plugins: [new VuexPersistence().plugin],
   state: {
     transaction: [],
+    category: [
+      "Bills",
+      "Entertainment",
+      "Food",
+      "Groceries",
+      "Health",
+      "Shopping",
+      "Transport",
+      "Utilities",
+      "Other"]
   },
   mutations: {
     addTransaction(state, transaction) {
