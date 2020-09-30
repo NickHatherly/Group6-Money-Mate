@@ -1,20 +1,27 @@
 <template>
   <div id="app">
-    <v-file-input
-      v-model="files"
-      label="File input"
-      filled
-      prepend-icon="mdi-camera"
-    ></v-file-input>
-
-    <button v-on:click="recognize">recognize</button>
-    <img id="text-img" prepend-icon="mdi-camera" src="imageUrl" />
+    <h1>Image Input</h1><br>
+<div> 
+  <label for="upload-image">Select Image</label>
+  <input type="file" v-on:click="chooseFile" @change="previewImage" accept="image/*" id="upload-image" >
+  </div>
+     <div class="image-preview" v-if="imageData.length > 0">
+                <img id="imagepreview" class="preview"  :src="imageData" style="width:250px;height:400px;">
+            </div>
+    <img id="text-img" src="/assets/imageholder.png">
+    <v-spacer></v-spacer>
+    <v-col></v-col>
+    <v-btn color= "#1565c0" dark large elevation="4" v-on:click="recognize">Recognize Image</v-btn>
+    <v-spacer></v-spacer>
+    <v-col></v-col>
+    <v-btn outlined color="#1565c0" large elevation="4" id="newImage" v-on:click="newImage">New image</v-btn>
+    <v-spacer></v-spacer>
+    <v-col></v-col>
 
     <p id="topText">
-      Note: Enter information about the company name, date, description, amount
-      and if the information is recurring
+      Note: Please select a file to be scanned and once prompted enter information about the company amount, date, description and Company name
     </p>
-    <v-chip-group column active-class="primary--text" id="resultChips">
+    <v-chip-group column center-active active-class="primary--text" id="resultChips">
       <v-chip color="red" text-color="white" @click="chipClick">
         Information Unavailable
       </v-chip>
@@ -22,15 +29,11 @@
         {{ tag }}
       </v-chip>
     </v-chip-group>
-    <v-btn text large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
-    <v-btn
-      text
-      large
-      id="submit"
-      router
-      :to="{ name: 'Textinput', query: { transactions } }"
-      >Submit</v-btn
-    >
+    <v-btn outlined color="#1565c0" large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
+    <v-row></v-row>
+    <div id = "submit">
+    <v-btn color= "#1565c0" dark large id="submit" router :to="{ name: 'Textinput', query: { transactions } }">Submit</v-btn>
+    </div>
   </div>
 </template>
 
@@ -49,31 +52,74 @@ export default {
   name: "app",
   data: () => {
     return {
-      file: null,
-      imageUrl: null,
+      imageData: "",
+     // file: null,
+     // imageUrl: null,
       myResult: "",
       transactions: [],
       testtext: "",
       textread: "",
       tags: [], //tags is the array where chips data is kept
       count: 0,
-      files: [],
+      //files: [],
       name: null,
     };
   },
   methods: {
+
+    chooseFile(){
+      var textimg = document.getElementById("text-img");
+      var chipGroup = document.getElementById("resultChips");
+      var backBtn = document.getElementById("backBtn");
+      var submitBtn = document.getElementById("submit");
+      var imagepreview  = document.getElementById("imagepreview" );
+      var newImage = document.getElementById("newImage");
+      newImage.style.display = "inline"; 
+      imagepreview.style.display = "inline"; 
+      textimg.style.display = "none"; 
+      backBtn.style.display = "none";
+      chipGroup.style.display = "none";
+      submitBtn.style.display = "none";
+    },
+
+    newImage(){
+      var imagepreview  = document.getElementById("imagepreview" );
+      imagepreview.style.display = "none"; 
+      this.count = 0;
+      this.transactions = [];
+      this.tags = [];
+    },
+
+    previewImage: function(event) {
+      var input = event.target;
+      var textimg = document.getElementById("text-img");
+      var chipGroup = document.getElementById("resultChips");
+      var backBtn = document.getElementById("backBtn");
+      var submitBtn = document.getElementById("submit");
+
+      textimg.style.display = "none";
+      backBtn.style.display = "none";
+      chipGroup.style.display = "none";
+      submitBtn.style.display = "none";
+
+      if (input.files) {
+        var reader = new FileReader(); // create a veriable to convert to base64 format
+        reader.onload = (e) => { // Define a callback function to run, when FileReader finishes 
+        this.imageData = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]); // Start the reader and reads it as URL form 
+       }
+    },
+
     //tesseract data read
     async recognize() {
       var chipGroup = document.getElementById("resultChips");
       var descText = document.getElementById("topText");
-      //var submitBtn = document.getElementById("submit");
-
+      
       chipGroup.style.display = "none";
       descText.textContent =
         "Note: Enter information about the company name, date, description and amount";
-      //var tags;
-      //const img = document.getElementById('text-img');
-      console.log(this.files);
+      console.log(this.imageData);
       await worker.load();
       await worker.loadLanguage("eng");
       await worker.initialize("eng", OEM.LSTM_ONLY);
@@ -83,7 +129,7 @@ export default {
       scheduler.addWorker(worker);
       const {
         data: { text },
-      } = await worker.recognize(this.files); //text it the output from the image
+      } = await worker.recognize(this.imageData); //text it the output from the image
       var mytext = JSON.stringify(text); //turn the text into a string
       var textread = mytext.split(" "); //split the stringified text to be turrned into tokens
       console.log(textread);
@@ -92,12 +138,9 @@ export default {
         console.log(split);
         split = split.replace(/\\n/g, "");
         split = split.replace(/[^A-Za-z0-9.$/]/g, "");
-        // if(split.indexOf(split) === -1) {
-        //     split.push(split)
-        //     return split;
-        //   }
         console.log(split);
         this.tags.push(split);
+        this.tags = [ ...new Set(this.tags) ]; //duplicate data is removed from the tags array, the ... expands a new list as an array
       });
 
       chipGroup.style.display = "inline";
@@ -182,16 +225,23 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px 20%;
 }
-img {
+#resultChips, #backBtn, #newImage {
+    display: none;
+  }
+/* img {
   filter: saturate(1.1) contrast(2) grayscale(1);
+} */
+upload-image{
+font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: 20px;
 }
 </style>
