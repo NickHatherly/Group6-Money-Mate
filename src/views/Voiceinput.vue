@@ -210,7 +210,7 @@
 		text-align: center;
 		margin: 60px 20%;
 	}
-	#stop, #legend, #submitStyle, #restart, #backBtn, #resultChips {
+	#stop, #submitStyle, #restart, #backBtn, #resultChips {
 		display: none;
 	}
 	#textBox {
