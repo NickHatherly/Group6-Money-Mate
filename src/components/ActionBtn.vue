@@ -7,7 +7,7 @@
       trigger="click"
     >
       <template slot="content" class="receipt-action-btn">
-        <router-link :to="{ name: 'Home' }"
+        <router-link :to="{ name: 'invoiceinput' }"
           ><a-button
             type="primary"
             icon="plus"
@@ -15,7 +15,7 @@
             size="large"
           ></a-button
         ></router-link>
-        <!--                <router-link :to="{name:'Home'}"><a-button icon="form" shape="circle" style="background:#4caf50;color:#fff;" size="large"></a-button></router-link>-->
+        <!--                <router-link :to="{name:'invoiceinput'}"><a-button icon="form" shape="circle" style="background:#4caf50;color:#fff;" size="large"></a-button></router-link>-->
       </template>
       <a-button
         type="primary"
