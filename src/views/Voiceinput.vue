@@ -3,8 +3,8 @@
 		<h1>Voice Input</h1><br>
 		<div class="voice">
 			<p id="topText">Note: Input information about the company name, date, description, amount and if the information is recurring</p> 
-			<v-btn text large v-on:click="inputSpeech" id="start">Begin voice input</v-btn>
-			<v-btn text large id="stop">Input in progress. Press to stop voice input.</v-btn>
+			<v-btn color="#1565c0" dark large v-on:click="inputSpeech" id="start">Begin voice input</v-btn>
+			<v-btn color="#1565c0" dark large id="stop">Input in progress. Press to stop voice input.</v-btn>
 			<div id="textBox">
 				<v-textarea
 					id="output"
@@ -22,10 +22,10 @@
 			<v-chip color="red" text-color="white" @click="chipClick">Information Unavailable</v-chip>
 			<v-chip v-for="tag in tags" :key="tag" @click="chipClick">{{ tag }}</v-chip>
 			</v-chip-group>
-			<v-btn text large v-on:click="inputSpeech" id="restart">Re-enter voice input</v-btn>
-			<v-btn text large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
+			<v-btn outlined color="#1565c0" large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
+			<v-btn outlined color="#1565c0" large v-on:click="inputSpeech" id="restart">Re-enter voice input</v-btn>
 			<div id="submitStyle">
-				<v-btn text large id="submit" router :to="{ name: 'Textinput', query: { transactions } }">Submit</v-btn>
+				<v-btn color="#1565c0" dark large id="submit" router :to="{ name: 'Textinput', query: { transactions } }">Submit</v-btn>
 			</div>
 		</div>
 	</div>
@@ -58,6 +58,7 @@
 				var chipGroup = document.getElementById('resultChips');
 				var descText = document.getElementById('topText');
 				var backBtn = document.getElementById('backBtn');
+				var submitBtn = document.getElementById('submitStyle');
 				var context = this;
 
 				// mostly resetting CSS and variables to default
@@ -67,6 +68,7 @@
 				textBox.style.display = "block";
 				chipGroup.style.display = "none";
 				backBtn.style.display = "none";
+				submitBtn.style.display = "none";
 				outputTxt.textContent = "";
 				descText.textContent = "Note: Input information about the company name, date, description, amount and if the information is recurring";
 				this.count = 0;
@@ -138,6 +140,7 @@
 					case 0:
 						descText.textContent = "Please select the Date from the chips below. If there is no applicable information, select the red chip.";
 						backBtn.style.display = "inline";
+						submitBtn.style.display = "inline";
 						break;
 					case 1:
 						descText.textContent = "Please select the Description from the chips below. If there is no applicable information, select the red chip.";
@@ -150,7 +153,6 @@
 						backBtn.textContent = "Go back";
 						restartBtn.style.display = "none";
 						chipGroup.style.display = "none";
-						submitBtn.style.display = "inline";
 						break;
 					}
 
@@ -184,6 +186,7 @@
 					case 0:
 						descText.textContent = "Please select the Total Amount from the chips below. If there is no applicable information, select the red chip.";
 						backBtn.style.display = "none";
+						submitBtn.style.display = "none";
 						break;
 					case 1:
 						descText.textContent = "Please select the Date from the chips below. If there is no applicable information, select the red chip.";
@@ -195,7 +198,6 @@
 						descText.textContent = "Please select the Company Name from the chips below. If there is no applicable information, select the red chip.";
 						backBtn.textContent = "Go back a step";
 						chipGroup.style.display = "inline";
-						submitBtn.style.display = "none";
 						restartBtn.style.display = "inline";
 						break;
 					}
