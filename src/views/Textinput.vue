@@ -67,7 +67,7 @@
           <v-select
             v-model="type"
             :items="transType"
-            label="Transaction Type*"
+            label="Transaction Type"
             prepend-icon="mdi-label"
           ></v-select>
         </v-col>
@@ -130,6 +130,7 @@ export default {
       var id = Math.floor(Date.now() / 1000);
       this.store.commit("addTransaction", {
         id: id,
+        type: this.Type,
         amount: this.amount,
         date: this.date,
         title: this.title,
