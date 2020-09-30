@@ -1,14 +1,6 @@
 <template>
   <div id="app">
-    <!-- <v-file-input
-      type="file"
-      label="Select file to be scanned"
-      filled
-      prepend-icon="mdi-camera"
-      @change="previewImage" 
-      accept="image/*"
-    ></v-file-input> -->
-    
+    <h1>Image Input</h1><br>
 <div> 
   <label for="upload-image">Select Image</label>
   <input type="file" v-on:click="chooseFile" @change="previewImage" accept="image/*" id="upload-image" >
@@ -22,13 +14,12 @@
     <v-btn color= "#1565c0" dark large elevation="4" v-on:click="recognize">Recognize Image</v-btn>
     <v-spacer></v-spacer>
     <v-col></v-col>
-    <v-btn outlined color="#1565c0" large elevation="4" v-on:click="newImage">New image</v-btn>
+    <v-btn outlined color="#1565c0" large elevation="4" id="newImage" v-on:click="newImage">New image</v-btn>
     <v-spacer></v-spacer>
     <v-col></v-col>
 
     <p id="topText">
-      Note: Enter information about the company name, date, description, amount
-      and if the information is recurring
+      Note: Please select a file to be scanned and once prompted enter information about the company amount, date, description and Company name
     </p>
     <v-chip-group column center-active active-class="primary--text" id="resultChips">
       <v-chip color="red" text-color="white" @click="chipClick">
@@ -38,15 +29,11 @@
         {{ tag }}
       </v-chip>
     </v-chip-group>
-    <v-btn text large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
-    <v-btn
-      text
-      large
-      id="submit"
-      router
-      :to="{ name: 'Textinput', query: { transactions } }"
-      >Submit</v-btn
-    >
+    <v-btn outlined color="#1565c0" large v-on:click="goBack" id="backBtn">Go back a step</v-btn>
+    <v-row></v-row>
+    <div id = "submit">
+    <v-btn color= "#1565c0" dark large id="submit" router :to="{ name: 'Textinput', query: { transactions } }">Submit</v-btn>
+    </div>
   </div>
 </template>
 
@@ -86,6 +73,8 @@ export default {
       var backBtn = document.getElementById("backBtn");
       var submitBtn = document.getElementById("submit");
       var imagepreview  = document.getElementById("imagepreview" );
+      var newImage = document.getElementById("newImage");
+      newImage.style.display = "inline"; 
       imagepreview.style.display = "inline"; 
       textimg.style.display = "none"; 
       backBtn.style.display = "none";
@@ -126,8 +115,7 @@ export default {
     async recognize() {
       var chipGroup = document.getElementById("resultChips");
       var descText = document.getElementById("topText");
-      //var submitBtn = document.getElementById("submit");
-
+      
       chipGroup.style.display = "none";
       descText.textContent =
         "Note: Enter information about the company name, date, description and amount";
@@ -237,15 +225,18 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px 20%;
 }
+#resultChips, #backBtn, #newImage {
+    display: none;
+  }
 /* img {
   filter: saturate(1.1) contrast(2) grayscale(1);
 } */
